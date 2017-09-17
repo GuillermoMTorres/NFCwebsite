@@ -1,0 +1,16 @@
+button{
+  margin-top: 150px;
+  margin-left: 150px;
+}
+.notLogWarn{
+	position: absolute;
+    top: 45%;
+    padding: 11px;
+    left: 38%;
+    border-bottom: 1px solid #ff6060;
+}
+body{
+	margin: 0;
+    height: 100%;
+    background-color: #f2f2f2;
+}

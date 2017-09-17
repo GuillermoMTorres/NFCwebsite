@@ -1,0 +1,35 @@
+.content{
+    height: 100%;
+    padding-left: 150px;
+    padding-top: 71px;
+}
+.content-header{
+    z-index: -1;
+    background-color: white;
+    font-family: 'Lato', sans-serif;
+    padding: 16px 0px 7px 50px;
+    vertical-align: center;
+    margin: 0px;
+    font-size: 20px;
+    margin-bottom: 46px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+    position: relative;
+}
+.content-main{
+	padding-right: 75px;
+	padding-left: 75px;
+}
+.peak{
+    position: absolute;
+    width: 15px;
+    bottom: -8px;
+    left: 123px;
+    z-index: 1;
+    height: 15px;
+    background-color: white;
+    -ms-transform: rotate(46deg);
+    -webkit-transform: rotate(46deg);
+    transform: rotate(46deg);
+	border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+	border-right: 1px solid rgba(128, 128, 128, 0.35);
+}

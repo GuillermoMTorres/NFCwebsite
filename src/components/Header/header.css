@@ -1,0 +1,27 @@
+.header{
+    background-color: #85af4b;
+    font-size: 32px;
+    z-index: 2;
+    color: #ffffff;
+    width: 100%;
+    height: 70px;
+    position: fixed;
+}
+.header-tittle{
+    height: 50px;
+    margin-top: 17px;
+    float: left;
+    margin-left: 26px;
+}
+.logBtn{
+    float: right;
+    font-size: 19px;
+    color: black;
+    background-color: #85af4b;
+    height: 43px;
+    padding: 24px 52px 3px 50px;
+}
+.logBtn:hover{
+	background-color: rgba(86, 117, 42, 0.39);
+	cursor: pointer;
+}

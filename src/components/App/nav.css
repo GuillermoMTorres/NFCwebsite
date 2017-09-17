@@ -1,0 +1,29 @@
+		.nav{
+		    background-color: #f2f2ea;
+		    float: left;
+		    width: 150px;
+		    color: #555452;
+		    height: 89vh;
+		    -webkit-box-shadow: -1px 6px 5px 5px rgba(204,202,204,1);
+		    -moz-box-shadow: -1px 6px 5px 5px rgba(204,202,204,1);
+		    box-shadow: -1px 6px 5px 5px rgba(204,202,204,1);
+		    position: fixed;
+		}
+		.nav a{
+			color: blue;
+		}
+		.nav ul{
+			padding: 0px;
+    		margin: 0px;
+		}
+		.nav li{
+			font-family: 'Lato', sans-serif;
+			list-style: none;
+
+			border-bottom: 1px solid hsla(0, 0%, 85%, 0.5);
+			padding: 12px;
+		}
+		.nav li:hover{
+			background-color: #85af4b;
+			color: white;
+		}

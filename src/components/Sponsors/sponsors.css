@@ -1,0 +1,43 @@
+		table{
+		    width: 100%;
+		    max-width: 100%;
+		    margin-bottom: 1rem;
+		    background-color: rgb(255, 255, 255) !important;
+    	border: 1px solid #d0c5c5;
+        border-collapse: collapse;
+        display: table;
+		}
+		thead{
+			border: 1px solid grey;
+		}
+		td, th{
+			padding: .75rem;
+		    vertical-align: top;
+		    border-top: 1px solid #e9ecef;
+		}
+		.content-main button {
+			margin: 0px;
+			padding: 0px; 
+		}
+		.content-main table button{
+			margin: 10px 20px;
+    		float: right;
+		}
+		.addButton{
+			float: none !important;
+			margin: 0px !important;
+			padding: 0px !important;
+		}
+		.addNewSponsor{
+			margin-top: 50px;
+		}
+		.addNewSponsor label{
+			margin: 10px 0px;
+		    margin-right: 44px;
+		    display: flex;
+		}
+
+		.addNewSponsor input[type="submit"] {
+    		display: flex;
+    		margin: 10px 0px;
+		}
