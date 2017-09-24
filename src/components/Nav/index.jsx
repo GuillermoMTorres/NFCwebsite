@@ -1,43 +1,50 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router'
-import styles from './nav.css';
+import './nav.css';
 
 class Nav extends Component{
-	constructor(){
-		super()
-	}
 
   render() {
     return (
 		<div className="nav">
 
 			<ul>
-				<Link to='/'>
+				<Link to='/ems'>
 					<li>ANALITYCS</li>
 				</Link>
 
-				<Link to='/asistentes'>
+				<Link to='/ems/asistentes'>
 					<li>ASISTENTES</li>
 				</Link>
 
-				<li>ENTRADAS</li>
+				<Link to='/ems/entradas'>
+					<li>ENTRADAS</li>
+				</Link>
 
-				<Link to="/invitados">
+				<Link to="/ems/invitados">
 					<li>INVITADOS</li>
 				</Link>
 
-				<Link to='/sponsors'>
+				<Link to='/ems/sponsors'>
 					<li>SPONSORS</li>
 				</Link>
-
-				<li>ACTIVIDADES</li>
-
-				<Link to="/productos">
-				<li>PRODUCTOS</li>
+				
+				<Link to='/ems/actividades'>
+					<li>ACTIVIDADES</li>
 				</Link>
 				
-				<li>ACCESO</li>
-				<li>REG. COMPRA</li>
+				<Link to="/ems/productos">
+					<li>PRODUCTOS</li>
+				</Link>
+				
+				<Link to="/ems/accesos">
+					<li>ACCESO</li>
+				</Link>
+
+				<Link to="/ems/rcompra">
+					<li>REG. COMPRA</li>
+				</Link>
+				
 				<li>BALANCE</li>
 			</ul>
 	</div>

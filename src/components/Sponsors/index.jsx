@@ -21,9 +21,9 @@ class Sponsors extends Component{
 
 		firebase.database().ref('Sponsors').on('child_added', snapshot => {
 			
-			if(snapshot.val()!="text"){ //Text -> Valor por defecto de firebase
+			if(snapshot.val()!=="text"){ //Text -> Valor por defecto de firebase
 
-			var newSnapshot = new Object() //Añadimos la unique key al snapshot
+			var newSnapshot = {} //Añadimos la unique key al snapshot
 			newSnapshot = snapshot.val()
 			newSnapshot.id = uuid.v4()
 			newSnapshot.key = snapshot.key
@@ -37,7 +37,7 @@ class Sponsors extends Component{
 
 		firebase.database().ref('Sponsors').on('child_removed', snapshot => {
 
-			if(snapshot.val()!="text"){ //Text -> Valor por defecto de firebase
+			if(snapshot.val()!=="text"){ //Text -> Valor por defecto de firebase
 
 			a.forEach(function(element, index) {
 
@@ -54,14 +54,14 @@ class Sponsors extends Component{
 		})
 
 		firebase.database().ref('Sponsors').on('child_changed', snapshot => {
-			console.log("Holis child change" + snapshot.key)
-			if(snapshot.val()!="text"){ //Text -> Valor por defecto de firebase
+
+			if(snapshot.val()!=="text"){ //Text -> Valor por defecto de firebase
 
 			a.forEach(function(element, index) {
 
 		    if(element.key === snapshot.key){
 
-		    var newSnapshot = new Object() //Añadimos la unique key al snapshot
+		    var newSnapshot = {} //Añadimos la unique key al snapshot
 			newSnapshot = snapshot.val()
 			newSnapshot.id = uuid.v4()
 			newSnapshot.key = snapshot.key
@@ -82,7 +82,8 @@ class Sponsors extends Component{
  		e.preventDefault()
 	 		const record = {
 		      Nombre: e.target.nombre.value,
-		      Descripcion: e.target.descripcion.value
+		      Descripcion: e.target.descripcion.value,
+		      Imagen: e.target.imagen.value
 		    }
 
 	    const dbRef = firebase.database().ref('Sponsors');
@@ -101,7 +102,7 @@ class Sponsors extends Component{
  	}
  	check(index){
  		console.log(index)
- 		if(index==this.state.onEdit){
+ 		if(index===this.state.onEdit){
 	 		this.setState({
 				onEdit: -1				
 			})
@@ -137,7 +138,7 @@ class Sponsors extends Component{
 	}
 
 	renderMapText (index, sponsor){
-		if(this.state.onEdit == index)
+		if(this.state.onEdit === index)
 		{
 			return(
 				<tr key={sponsor.id}>

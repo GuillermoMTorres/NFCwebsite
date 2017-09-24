@@ -20,9 +20,9 @@ class Invitados extends Component{
 
 		firebase.database().ref('Invitados').on('child_added', snapshot => {
 			
-			if(snapshot.val()!="text"){ //Text -> Valor por defecto de firebase
+			if(snapshot.val()!=="text"){ //Text -> Valor por defecto de firebase
 
-			var newSnapshot = new Object() //Añadimos la unique key al snapshot
+			var newSnapshot = {} //Añadimos la unique key al snapshot
 			newSnapshot = snapshot.val()
 			newSnapshot.id = uuid.v4()
 			newSnapshot.key = snapshot.key
@@ -36,7 +36,7 @@ class Invitados extends Component{
 
 		firebase.database().ref('Invitados').on('child_removed', snapshot => {
 
-			if(snapshot.val()!="text"){ //Text -> Valor por defecto de firebase
+			if(snapshot.val()!=="text"){ //Text -> Valor por defecto de firebase
 
 			a.forEach(function(element, index) {
 
@@ -53,14 +53,13 @@ class Invitados extends Component{
 		})
 
 		firebase.database().ref('Invitados').on('child_changed', snapshot => {
-			console.log("Holis child change" + snapshot.key)
-			if(snapshot.val()!="text"){ //Text -> Valor por defecto de firebase
+			if(snapshot.val()!=="text"){ //Text -> Valor por defecto de firebase
 
 			a.forEach(function(element, index) {
 
 		    if(element.key === snapshot.key){
 
-		    var newSnapshot = new Object() //Añadimos la unique key al snapshot
+		    var newSnapshot = {} //Añadimos la unique key al snapshot
 			newSnapshot = snapshot.val()
 			newSnapshot.id = uuid.v4()
 			newSnapshot.key = snapshot.key
@@ -101,7 +100,7 @@ class Invitados extends Component{
  	}
  	check(index){
  		console.log(index)
- 		if(index==this.state.onEdit){
+ 		if(index===this.state.onEdit){
 	 		this.setState({
 				onEdit: -1				
 			})
@@ -137,7 +136,7 @@ class Invitados extends Component{
 	}
 
 	renderMapText (index, invitado){
-		if(this.state.onEdit == index)
+		if(this.state.onEdit === index)
 		{
 			return(
 				<tr key={invitado.id}>

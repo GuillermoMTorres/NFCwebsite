@@ -8,9 +8,16 @@ import Header from '../Header'
 import Nav from '../Nav'
 import Main from '../Main'
 import Sponsors from '../Sponsors'
+import Rcompra from '../RCompra'
 import Productos from '../Productos'
 import Invitados from '../Invitados'
+import Accesos from '../Accesos'
+import Entradas from '../Entradas'
+import Actividades from '../Actividades'
+import Asistentes from '../Asistentes'
 import FrontPage from '../FrontPage'
+import WebTicket from '../WebTicket'
+import WebHeader from '../WebHeader'
 
 class App extends Component {
   constructor(){ 
@@ -24,6 +31,7 @@ class App extends Component {
 
   this.handleAuth = this.handleAuth.bind(this)
   this.handleLogout = this.handleLogout.bind(this)
+  this.handleUpload = this.handleUpload.bind(this);
   }
 
   componentWillMount(){
@@ -35,6 +43,31 @@ class App extends Component {
         this.setState({ isLogged: false, name: ""})        
      }
     });
+  }
+
+  handleUpload (event,record) {
+      event.preventDefault()
+      console.log(record.Nombre)
+      
+      const file = event.target.fupload.files[0];
+      const storageRef = firebase.storage().ref(`/DNI/${record.DNI}/dni`)
+      const task = storageRef.put(file);
+      if(file.size > 5242880){
+        alert(`El archivo que has subido pesa demasiado. No se pueden subir archivos de más de 5MB`)
+      }else{
+        task.on('state_changed', snapshot => {
+          let percentage = (snapshot.bytesTransfered / snapshot.totalBytes) * 100
+          this.setState({
+            uploadValue: percentage
+          })
+        }, error => {
+          console.log(error.message)
+        }, () => {
+          const dbRef = firebase.database().ref('Asistentes');
+          const newAsistente = dbRef.push();
+          newAsistente.set(record);
+        });
+      }
   }
 
   handleAuth () {
@@ -62,60 +95,6 @@ class App extends Component {
     newSponsor.set(record)
   }
 
-  renderIfLogged(elemento){
-    if(this.state.user){
-
-        if(elemento==='Main')
-        return(
-          <div>
-            <Nav />
-            <Main/>
-          </div>
-        )
-        if(elemento==='Sponsors')
-        return(
-          <div>
-            <Nav />
-            <Sponsors/>
-          </div>
-        )
-        if(elemento==='Asistentes')
-        return(
-          <div>
-            <Nav />
-            <Main/>
-          </div>
-        )
-              if(elemento==='Main')
-        return(
-          <div>
-            <Nav />
-            <Main/>
-          </div>
-        )
-
-
-
-    }else{
-        return(
-          <div className="notLogWarn">Tienes que estar registrado para acceder</div>
-        )
-    }
-  }
-  renderIfLoggedSponsor(){
-    if(this.state.user){
-        return(
-          <div>
-            <Nav />
-            <Sponsors/>
-          </div>
-        )
-    }else{
-        return(
-          <div className="notLogWarn">Tienes que estar registrado para acceder</div>
-        )
-    }
-  }
 
 
 
@@ -123,7 +102,7 @@ class App extends Component {
     return (
       <HashRouter>
       <div>
-        <Match exactly pattern ="/" render ={() => {  
+        <Match exactly pattern ="/ems" render ={() => {  
 
               if(this.state.user){
                   return(
@@ -145,7 +124,7 @@ class App extends Component {
               }
 
         }} />
-        <Match exactly pattern ="/invitados" render ={() => {  
+        <Match pattern ="/ems/invitados" render ={() => {  
 
               if(this.state.user){
                   return(
@@ -167,7 +146,95 @@ class App extends Component {
               }
 
         }} />
-        <Match pattern='/productos' render = {() => {
+        <Match pattern ="/ems/accesos" render ={() => {  
+
+              if(this.state.user){
+                  return(
+                    <div>
+                      <Header logged={this.state.isLogged} name={this.state.name} onLogin={this.handleAuth} onLogout={this.handleLogout}
+                      />
+                      <Nav />
+                      <Accesos/>
+                    </div>
+                  )
+              }else{
+                  return(
+                    <div>
+                      <Header logged={this.state.isLogged} name={this.state.name} onLogin={this.handleAuth} onLogout={this.handleLogout}
+                        />
+                      <div className="notLogWarn">Tienes que estar registrado para acceder</div>
+                    </div>
+                  )
+              }
+
+        }} />
+        <Match pattern ="/ems/asistentes" render ={() => {  
+
+              if(this.state.user){
+                  return(
+                    <div>
+                      <Header logged={this.state.isLogged} name={this.state.name} onLogin={this.handleAuth} onLogout={this.handleLogout}
+                      />
+                      <Nav />
+                      <Asistentes/>
+                    </div>
+                  )
+              }else{
+                  return(
+                    <div>
+                      <Header logged={this.state.isLogged} name={this.state.name} onLogin={this.handleAuth} onLogout={this.handleLogout}
+                        />
+                      <div className="notLogWarn">Tienes que estar registrado para acceder</div>
+                    </div>
+                  )
+              }
+
+        }} />
+        <Match pattern ="/ems/rcompra" render ={() => {  
+
+              if(this.state.user){
+                  return(
+                    <div>
+                      <Header logged={this.state.isLogged} name={this.state.name} onLogin={this.handleAuth} onLogout={this.handleLogout}
+                      />
+                      <Nav />
+                      <Rcompra/>
+                    </div>
+                  )
+              }else{
+                  return(
+                    <div>
+                      <Header logged={this.state.isLogged} name={this.state.name} onLogin={this.handleAuth} onLogout={this.handleLogout}
+                        />
+                      <div className="notLogWarn">Tienes que estar registrado para acceder</div>
+                    </div>
+                  )
+              }
+
+        }} />
+        <Match pattern ="/ems/entradas" render ={() => {  
+
+              if(this.state.user){
+                  return(
+                    <div>
+                      <Header logged={this.state.isLogged} name={this.state.name} onLogin={this.handleAuth} onLogout={this.handleLogout}
+                      />
+                      <Nav />
+                      <Entradas/>
+                    </div>
+                  )
+              }else{
+                  return(
+                    <div>
+                      <Header logged={this.state.isLogged} name={this.state.name} onLogin={this.handleAuth} onLogout={this.handleLogout}
+                        />
+                      <div className="notLogWarn">Tienes que estar registrado para acceder</div>
+                    </div>
+                  )
+              }
+
+        }} />
+        <Match pattern='/ems/productos' render = {() => {
 
               if(this.state.user){
                   return(
@@ -189,7 +256,7 @@ class App extends Component {
               }
 
         }} />
-        <Match pattern='/sponsors' render = {() => {
+        <Match pattern='/ems/sponsors' render = {() => {
             
               if(this.state.user){
                   return(
@@ -210,15 +277,45 @@ class App extends Component {
                   )
               }
         }} />
-        <Match pattern='/frontpage' render = {() => {
+        <Match pattern='/ems/actividades' render = {() => {
+            
+              if(this.state.user){
+                  return(
+                    <div>
+                      <Header logged={this.state.isLogged} name={this.state.name} onLogin={this.handleAuth} onLogout={this.handleLogout}
+                        />
+                      <Nav />
+                      <Actividades/>
+                    </div>
+                  )
+              }else{
+                  return(
+                    <div>
+                      <Header logged={this.state.isLogged} name={this.state.name} onLogin={this.handleAuth} onLogout={this.handleLogout}
+                        />
+                      <div className="notLogWarn">Tienes que estar registrado para acceder</div>
+                    </div>
+                  )
+              }
+        }} />
+        <Match exactly pattern='/' render = {() => {
             
                   return(
                     <div>
+                      <WebHeader/>
                       <FrontPage/>
                     </div>
                   )
         }} />
-
+        <Match pattern='/tickets' render = {() => {
+            
+                  return(
+                    <div>
+                      <WebHeader/>
+                      <WebTicket onUpload={this.handleUpload} />
+                    </div>
+                  )
+        }} />
       </div>
       </HashRouter>
     );

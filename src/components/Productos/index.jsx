@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import { table } from 'react-bootstrap';
 import uuid from 'uuid';
 
 class Productos extends Component{
 	constructor(){
-		super()
+		super();
 		this.state = {
 			productos: [],
 			onEdit: -1
 		}
+
 	this.addData = this.addData.bind(this)
 	this.removeData = this.removeData.bind(this)
 	}
@@ -18,9 +20,9 @@ class Productos extends Component{
 
 		firebase.database().ref('Productos').on('child_added', snapshot => {
 			
-			if(snapshot.val()!="text"){ //Text -> Valor por defecto de firebase
+			if(snapshot.val()!=="text"){ //Text -> Valor por defecto de firebase
 
-			var newSnapshot = new Object() //Añadimos la unique key al snapshot
+			var newSnapshot = {} //Añadimos la unique key al snapshot
 			newSnapshot = snapshot.val()
 			newSnapshot.id = uuid.v4()
 			newSnapshot.key = snapshot.key
@@ -33,16 +35,16 @@ class Productos extends Component{
 		})
 
 		firebase.database().ref('Productos').on('child_removed', snapshot => {
-			console.log("Holis removed" + snapshot.val().Nombre)
-			if(snapshot.val()!="text"){ //Text -> Valor por defecto de firebase
+
+			if(snapshot.val()!=="text"){ //Text -> Valor por defecto de firebase
 
 			a.forEach(function(element, index) {
 
 		    if(element.Nombre === snapshot.val().Nombre){
-		    	console.log("holis if")
+
 		    	a.splice(index, 1)
 		    }
-		    console.log(a);
+
 		});
 				this.setState({
 					productos: a				
@@ -51,14 +53,14 @@ class Productos extends Component{
 		})
 
 		firebase.database().ref('Productos').on('child_changed', snapshot => {
-			console.log("Holis child change" + snapshot.key)
-			if(snapshot.val()!="text"){ //Text -> Valor por defecto de firebase
+
+			if(snapshot.val()!=="text"){ //Text -> Valor por defecto de firebase
 
 			a.forEach(function(element, index) {
 
 		    if(element.key === snapshot.key){
 
-		    var newSnapshot = new Object() //Añadimos la unique key al snapshot
+		    var newSnapshot = {} //Añadimos la unique key al snapshot
 			newSnapshot = snapshot.val()
 			newSnapshot.id = uuid.v4()
 			newSnapshot.key = snapshot.key
@@ -66,7 +68,7 @@ class Productos extends Component{
 		    }
 
 		});
-		this.setState({
+				this.setState({
 					productos: a,
 					onEdit: -1				
 				})
@@ -80,16 +82,16 @@ class Productos extends Component{
 	 		const record = {
 		      Nombre: e.target.nombre.value,
 		      Descripcion: e.target.descripcion.value,
-		      Precio: e.target.precio.value,
 		      Imagen: e.target.imagen.value,
-		      ID_producto: e.target.idProducto.value
+		      ID_producto: e.target.id.value,
+		      Precio: e.target.precio.value
 		    }
 
 	    const dbRef = firebase.database().ref('Productos');
 	    const newSponsor = dbRef.push();
 	    newSponsor.set(record)
  	}
- 	removeData(e){	
+ 	removeData(e){
  		let key = e.target.name;
 		let ref = firebase.database().ref('Productos');
 		ref.orderByChild('Nombre').equalTo(key).once('value', snapshot => {
@@ -101,7 +103,7 @@ class Productos extends Component{
  	}
  	check(index){
  		console.log(index)
- 		if(index==this.state.onEdit){
+ 		if(index===this.state.onEdit){
 	 		this.setState({
 				onEdit: -1				
 			})
@@ -112,19 +114,20 @@ class Productos extends Component{
  		}
 
  	}
- 	test(e){
+
+	test(e){
 		e.preventDefault();
 		let nameDef = e.target.nombre.value || e.target.nombre.placeholder
 		let descDef = e.target.descripcion.value || e.target.descripcion.placeholder
 		let imgDef = e.target.imagen.value ||e.target.imagen.placeholder
-		let idDef = e.target.idProd.value ||e.target.idProd.placeholder
 		let preDef = e.target.precio.value ||e.target.precio.placeholder
+		let IDdef = e.target.id.value ||e.target.id.placeholder
 
 	 		const record = {
 		      Nombre: nameDef,
 		      Descripcion: descDef,
 		      Imagen: imgDef,
-		      ID_producto: idDef,
+		      ID_producto: IDdef,
 		      Precio: preDef
 		    }
 		
@@ -139,15 +142,15 @@ class Productos extends Component{
 
 	}
 
-	renderMapText (producto, index){
-		if(this.state.onEdit == index)
+	renderMapText (index, producto){
+		if(this.state.onEdit === index)
 		{
 			return(
 				<tr key={producto.id}>
-					<td><input name="idProd" placeholder={producto.ID_producto}/></td>
+					<td><input name="id" placeholder={producto.ID_producto}/></td>
 					<td><input name="nombre" placeholder={producto.Nombre}/></td>
-					<td><input name="descripcion" placeholder={producto.Descripcion}/></td>
 					<td><input name="precio" placeholder={producto.Precio}/></td>
+					<td><input name="descripcion" placeholder={producto.Descripcion}/></td>
 					<td><input name="imagen" placeholder={producto.Imagen}/>
 					 	<input type="submit" value="Submit"/>
 					 	<button type="button" name={producto.Nombre} onClick={() => this.check(index)}>Cancelar</button>
@@ -159,8 +162,8 @@ class Productos extends Component{
 				<tr key={producto.id}>
 					<td>{producto.ID_producto}</td>
 					<td>{producto.Nombre}</td>
-					<td>{producto.Descripcion}</td>
 					<td>{producto.Precio}</td>
+					<td>{producto.Descripcion}</td>
 					<td>{producto.Imagen}
 					<button name={producto.Nombre} onClick={this.removeData}>Remove</button>
 					<button type="button" name={producto.Nombre} onClick={() => this.check(index)}>Edit</button>
@@ -170,24 +173,25 @@ class Productos extends Component{
 		}
 	}
 
-	render(){
 
-		return(
+  render() {
 
+    return (
+    	
 		<div className="content">
 			<div className="content-header">
 				<div className="peak"></div>
-				<p onClick="scrollTo(#asd)">Productos</p>
+				<p>Lista de Productos</p>
 			</div>
 			<div className="content-main">
-				<form onSubmit={this.test}>
+			<form onSubmit={this.test}>
 					<table className="striped bordered condensed hover">
 					  <thead className="thead-inverse">
 				    <tr>
 				      <th>ID</th>
 				      <th>Nombre</th>
-				      <th>Descripcion</th>
 				      <th>Precio</th>
+				      <th>Description</th>
 				      <th>Imagen</th>
 				    </tr>
 				  </thead>
@@ -195,7 +199,7 @@ class Productos extends Component{
 				{
 				this.state.productos.map((producto, index) => (
 
-						this.renderMapText(producto, index)	
+						this.renderMapText(index, producto)	
 					))
 				}
 				</tbody>
@@ -210,16 +214,17 @@ class Productos extends Component{
 					<label>Imagen</label>
 					<input id="testing" type="text" name="imagen" placeholder="Inserta el nombre"></input>
 					<label>ID</label>
-					<input id="testing" type="text" name="idProductos" placeholder="Inserta el nombre"></input>
+					<input id="testing" type="text" name="id" placeholder="Inserta el nombre"></input>
 					<label>Precio</label>
 					<input id="testing" type="text" name="precio" placeholder="Inserta el nombre"></input>
 					<input type="submit" value="Submit"></input>
 				</form>
 			</div>
 			</div>
-			<div id="asd"></div>
+
 		</div>
     )
+
 	}
 
 }
